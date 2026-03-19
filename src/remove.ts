@@ -3,7 +3,7 @@
 import { join } from 'node:path'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, readMcpConfig, removeMcpEntries } from './config.js'
+import { TARGET_CONFIGS, getInstalledMcpNames, removeMcpEntries } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptTarget } from './prompts.js'
 import { parseNumberList } from './prompts.js'
@@ -29,12 +29,11 @@ export async function runRemove(targetFlag?: TargetTool): Promise<void> {
     const config = TARGET_CONFIGS[target]
     const configPath = join(cwd, config.mcpConfigPath)
 
-    // 2. Leer config y filtrar MCPs del registry
-    const { servers } = await readMcpConfig(configPath, config.mcpConfigFormat)
-    const installedNames = Object.keys(servers)
+    // 2. Leer TODAS las ubicaciones y filtrar MCPs del registry
+    const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
 
     const installedMcps = MCP_REGISTRY.filter((mcp) =>
-      installedNames.includes(mcp.name),
+      installedNames.has(mcp.name),
     )
 
     if (installedMcps.length === 0) {

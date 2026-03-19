@@ -1,6 +1,6 @@
 {
   "name": "@cocaxcode/suite-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI instalador interactivo para los MCPs de cocaxcode. Instala api-testing, database, logbook y ai-context-inspector en cualquier herramienta AI.",
   "type": "module",
   "bin": {

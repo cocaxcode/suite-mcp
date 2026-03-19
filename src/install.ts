@@ -3,7 +3,7 @@
 import { join } from 'node:path'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, readMcpConfig, writeMcpEntries } from './config.js'
+import { TARGET_CONFIGS, getInstalledMcpNames, writeMcpEntries } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptChecklist, promptTarget } from './prompts.js'
 
@@ -32,15 +32,14 @@ export async function runInstall(targetFlag?: TargetTool, all?: boolean): Promis
     const config = TARGET_CONFIGS[target]
     const configPath = join(cwd, config.mcpConfigPath)
 
-    // 2. Leer config existente
-    const { servers } = await readMcpConfig(configPath, config.mcpConfigFormat)
-    const installedNames = Object.keys(servers)
+    // 2. Leer TODAS las ubicaciones donde pueden estar instalados
+    const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
 
     // 3. Determinar que instalar
     const items = MCP_REGISTRY.map((mcp) => ({
       label: mcp.name,
       description: mcp.description,
-      installed: installedNames.includes(mcp.name),
+      installed: installedNames.has(mcp.name),
     }))
 
     const allInstalled = items.every((item) => item.installed)

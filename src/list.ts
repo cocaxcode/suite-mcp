@@ -3,7 +3,7 @@
 import { join } from 'node:path'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, readMcpConfig } from './config.js'
+import { TARGET_CONFIGS, getInstalledMcpNames } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptTarget } from './prompts.js'
 
@@ -34,9 +34,8 @@ export async function runList(targetFlag?: TargetTool): Promise<void> {
   const config = TARGET_CONFIGS[target]
   const configPath = join(cwd, config.mcpConfigPath)
 
-  // Leer config
-  const { servers } = await readMcpConfig(configPath, config.mcpConfigFormat)
-  const installedNames = Object.keys(servers)
+  // Leer TODAS las ubicaciones
+  const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
 
   // Calcular anchos para alinear columnas
   const maxNameLen = Math.max(...MCP_REGISTRY.map((m) => m.name.length))
@@ -47,7 +46,7 @@ export async function runList(targetFlag?: TargetTool): Promise<void> {
 
   let installedCount = 0
   for (const mcp of MCP_REGISTRY) {
-    const installed = installedNames.includes(mcp.name)
+    const installed = installedNames.has(mcp.name)
     if (installed) installedCount++
     const status = installed ? '✓' : '✗'
     console.error(`  ${status}       ${mcp.name.padEnd(maxNameLen)}  ${mcp.description}`)
