@@ -1,0 +1,60 @@
+{
+  "name": "@cocaxcode/suite-mcp",
+  "version": "0.1.0",
+  "description": "CLI instalador interactivo para los MCPs de cocaxcode. Instala api-testing, database, logbook y ai-context-inspector en cualquier herramienta AI.",
+  "type": "module",
+  "bin": {
+    "suite-mcp": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "cli",
+    "installer",
+    "ai-tools",
+    "claude",
+    "cursor",
+    "windsurf",
+    "copilot",
+    "gemini",
+    "codex",
+    "opencode",
+    "cocaxcode"
+  ],
+  "author": "cocaxcode",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocaxcode/suite-mcp.git"
+  },
+  "homepage": "https://github.com/cocaxcode/suite-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/cocaxcode/suite-mcp/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}
