@@ -21,7 +21,6 @@
   <a href="#installation">Installation</a> ·
   <a href="#usage">Usage</a> ·
   <a href="#supported-ai-tools">Supported AI tools</a> ·
-  <a href="#adding-new-mcps">Adding new MCPs</a> ·
   <a href="#architecture">Architecture</a> ·
   <a href="#contributing">Contributing</a>
 </p>
@@ -160,22 +159,6 @@ If no tool is detected, the CLI asks which one to configure. Use `--target` to s
 - **It doesn't bundle MCPs.** Each MCP stays independent with its own lifecycle and storage.
 - **It doesn't touch non-cocaxcode MCPs.** Your existing MCP configs are preserved (merge, never overwrite).
 
-## Adding new MCPs
-
-To add a new MCP to the suite, edit `src/registry.ts` and add an entry:
-
-```typescript
-{
-  name: 'my-new-mcp',
-  package: '@cocaxcode/my-new-mcp',
-  description: 'What this MCP does',
-  command: 'npx',
-  args: ['-y', '@cocaxcode/my-new-mcp@latest'],
-}
-```
-
-No changes needed in any other file. The new MCP appears automatically in install, remove, and list.
-
 ## Architecture
 
 Built for safety and simplicity:
@@ -191,7 +174,7 @@ Built for safety and simplicity:
 src/
 ├── index.ts       # CLI entry point and arg parsing
 ├── types.ts       # TypeScript interfaces
-├── registry.ts    # MCP catalog (the only file to edit for new MCPs)
+├── registry.ts    # MCP catalog
 ├── config.ts      # Config read/write with atomic operations
 ├── detect.ts      # AI tool auto-detection
 ├── prompts.ts     # Interactive readline prompts
