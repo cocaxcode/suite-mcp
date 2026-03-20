@@ -75,8 +75,7 @@ npx @cocaxcode/suite-mcp install --target cursor
 npx @cocaxcode/suite-mcp install --target gemini --all
 ```
 
-> [!NOTE]
-> Already-installed MCPs are skipped automatically. Only missing ones get added.
+> **Note:** Already-installed MCPs are skipped automatically. Only missing ones get added.
 
 ### List status
 
@@ -133,8 +132,7 @@ suite-mcp auto-detects your tool by scanning for marker files in the working dir
 | **Codex CLI** | `.mcp.json` | flat |
 | **OpenCode** | `opencode.json` | nested |
 
-> [!TIP]
-> If no tool is detected, the CLI prompts you to choose one. Use `--target` to skip detection entirely.
+> **Tip:** If no tool is detected, the CLI prompts you to choose one. Use `--target` to skip detection entirely.
 
 ## What it does NOT do
 
