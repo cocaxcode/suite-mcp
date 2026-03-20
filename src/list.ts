@@ -3,7 +3,7 @@
 import { join } from 'node:path'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, getInstalledMcpNames } from './config.js'
+import { TARGET_CONFIGS, getGlobalConfigPath, getInstalledMcpNames } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptTarget } from './prompts.js'
 
@@ -32,10 +32,12 @@ export async function runList(targetFlag?: TargetTool): Promise<void> {
   }
 
   const config = TARGET_CONFIGS[target]
-  const configPath = join(cwd, config.mcpConfigPath)
+  const globalConfig = getGlobalConfigPath(target)
+  const configPath = globalConfig ? globalConfig.path : join(cwd, config.mcpConfigPath)
+  const configFormat = globalConfig ? globalConfig.format : config.mcpConfigFormat
 
   // Leer TODAS las ubicaciones
-  const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
+  const installedNames = await getInstalledMcpNames(configPath, configFormat, target)
 
   // Calcular anchos para alinear columnas
   const maxNameLen = Math.max(...MCP_REGISTRY.map((m) => m.name.length))

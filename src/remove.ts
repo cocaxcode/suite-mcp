@@ -1,9 +1,10 @@
 // ── Subcomando remove ──
 
 import { join } from 'node:path'
+import { homedir } from 'node:os'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, getInstalledMcpNames, removeMcpEntries } from './config.js'
+import { TARGET_CONFIGS, getGlobalConfigPath, getInstalledMcpNames, removeMcpEntries } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptTarget } from './prompts.js'
 import { parseNumberList } from './prompts.js'
@@ -27,10 +28,12 @@ export async function runRemove(targetFlag?: TargetTool): Promise<void> {
     }
 
     const config = TARGET_CONFIGS[target]
-    const configPath = join(cwd, config.mcpConfigPath)
+    const globalConfig = getGlobalConfigPath(target)
+    const configPath = globalConfig ? globalConfig.path : join(cwd, config.mcpConfigPath)
+    const configFormat = globalConfig ? globalConfig.format : config.mcpConfigFormat
 
     // 2. Leer TODAS las ubicaciones y filtrar MCPs del registry
-    const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
+    const installedNames = await getInstalledMcpNames(configPath, configFormat, target)
 
     const installedMcps = MCP_REGISTRY.filter((mcp) =>
       installedNames.has(mcp.name),
@@ -74,12 +77,13 @@ export async function runRemove(targetFlag?: TargetTool): Promise<void> {
     // 4. Eliminar entries
     await removeMcpEntries(
       configPath,
-      config.mcpConfigFormat,
+      configFormat,
       toRemove.map((mcp) => mcp.name),
+      globalConfig ? homedir() : cwd,
     )
 
     // 5. Resumen
-    console.error(`\n✓ ${toRemove.length} MCP${toRemove.length > 1 ? 's' : ''} eliminado${toRemove.length > 1 ? 's' : ''} de ${config.mcpConfigPath} (${target})`)
+    console.error(`\n✓ ${toRemove.length} MCP${toRemove.length > 1 ? 's' : ''} eliminado${toRemove.length > 1 ? 's' : ''} de ${configPath} (${target})`)
     for (const mcp of toRemove) {
       console.error(`  - ${mcp.name}`)
     }

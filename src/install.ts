@@ -1,9 +1,10 @@
 // ── Subcomando install ──
 
 import { join } from 'node:path'
+import { homedir } from 'node:os'
 import type { TargetTool } from './types.js'
 import { MCP_REGISTRY } from './registry.js'
-import { TARGET_CONFIGS, getInstalledMcpNames, writeMcpEntries } from './config.js'
+import { TARGET_CONFIGS, getGlobalConfigPath, getInstalledMcpNames, writeMcpEntries } from './config.js'
 import { detectTargetTools } from './detect.js'
 import { createPromptInterface, promptChecklist, promptTarget } from './prompts.js'
 
@@ -30,10 +31,12 @@ export async function runInstall(targetFlag?: TargetTool, all?: boolean): Promis
     }
 
     const config = TARGET_CONFIGS[target]
-    const configPath = join(cwd, config.mcpConfigPath)
+    const globalConfig = getGlobalConfigPath(target)
+    const configPath = globalConfig ? globalConfig.path : join(cwd, config.mcpConfigPath)
+    const configFormat = globalConfig ? globalConfig.format : config.mcpConfigFormat
 
     // 2. Leer TODAS las ubicaciones donde pueden estar instalados
-    const installedNames = await getInstalledMcpNames(configPath, config.mcpConfigFormat, target)
+    const installedNames = await getInstalledMcpNames(configPath, configFormat, target)
 
     // 3. Determinar que instalar
     const items = MCP_REGISTRY.map((mcp) => ({
@@ -72,16 +75,17 @@ export async function runInstall(targetFlag?: TargetTool, all?: boolean): Promis
     // 4. Escribir config
     await writeMcpEntries(
       configPath,
-      config.mcpConfigFormat,
+      configFormat,
       toInstall.map((mcp) => ({
         name: mcp.name,
         command: mcp.command,
         args: mcp.args,
       })),
+      globalConfig ? homedir() : cwd,
     )
 
     // 5. Resumen
-    console.error(`\n✓ ${toInstall.length} MCP${toInstall.length > 1 ? 's' : ''} instalado${toInstall.length > 1 ? 's' : ''} en ${config.mcpConfigPath} (${target})`)
+    console.error(`\n✓ ${toInstall.length} MCP${toInstall.length > 1 ? 's' : ''} instalado${toInstall.length > 1 ? 's' : ''} en ${configPath} (${target})`)
     for (const mcp of toInstall) {
       console.error(`  - ${mcp.name}`)
     }

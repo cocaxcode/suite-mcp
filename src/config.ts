@@ -123,12 +123,47 @@ function ensureServersContainer(
   return parsed.mcpServers as Record<string, unknown>
 }
 
+// ── Rutas globales (nivel usuario) por herramienta ──
+
+/**
+ * Retorna la ruta GLOBAL (nivel usuario) donde instalar MCPs para una herramienta.
+ * Estas rutas son absolutas y viven en el directorio del usuario, no en el proyecto.
+ * Retorna null si la herramienta no tiene una ruta global conocida.
+ */
+export function getGlobalConfigPath(target: TargetTool): { path: string; format: 'flat' | 'nested' } | null {
+  const home = homedir()
+
+  switch (target) {
+    case 'claude':
+      // Claude Code user-level config (~/.claude/settings.json)
+      return { path: join(home, '.claude', 'settings.json'), format: 'nested' }
+
+    case 'cursor':
+      // Cursor global MCP config (~/.cursor/mcp.json)
+      return { path: join(home, '.cursor', 'mcp.json'), format: 'flat' }
+
+    case 'windsurf':
+      // Windsurf global MCP config (~/.codeium/windsurf/mcp_config.json)
+      return { path: join(home, '.codeium', 'windsurf', 'mcp_config.json'), format: 'nested' }
+
+    case 'gemini':
+      // Gemini CLI global settings (~/.gemini/settings.json)
+      return { path: join(home, '.gemini', 'settings.json'), format: 'nested' }
+
+    case 'copilot':
+    case 'codex':
+    case 'opencode':
+      // Sin ruta global conocida — se usara la ruta local del proyecto
+      return null
+  }
+}
+
 // ── Rutas alternativas donde cada herramienta guarda MCPs ──
 
 /**
  * Retorna rutas adicionales donde la herramienta puede tener MCPs configurados.
- * Por ejemplo, Claude Desktop guarda en %APPDATA%/Claude/claude_desktop_config.json
- * ademas del .mcp.json del proyecto.
+ * Se usa solo para DETECCION (lectura) de MCPs ya instalados en otras ubicaciones.
+ * Para claude: incluye Claude Desktop ademas de la ruta global principal (Claude Code).
  */
 function getAlternativeConfigPaths(target: TargetTool): { path: string; format: 'flat' | 'nested' }[] {
   const paths: { path: string; format: 'flat' | 'nested' }[] = []
@@ -147,12 +182,6 @@ function getAlternativeConfigPaths(target: TargetTool): { path: string; format: 
         format: 'flat',
       })
     }
-
-    // Claude Code user-level config (~/.claude/settings.json) — nested format
-    paths.push({
-      path: join(homedir(), '.claude', 'settings.json'),
-      format: 'nested',
-    })
   }
 
   return paths

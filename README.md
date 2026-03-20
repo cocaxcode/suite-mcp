@@ -27,7 +27,7 @@
 
 ---
 
-An interactive CLI installer that configures all five cocaxcode MCP servers in your AI tool of choice. It auto-detects your tool, lets you pick which MCPs to add, and writes the correct config file — merging with your existing setup, never overwriting it.
+An interactive CLI installer that configures all five cocaxcode MCP servers in your AI tool of choice. It auto-detects your tool, lets you pick which MCPs to add, and writes directly to your **user-level global config** — merging with your existing setup, never overwriting it.
 
 ```bash
 npx @cocaxcode/suite-mcp install
@@ -120,17 +120,17 @@ Shows only installed MCPs and lets you choose which to remove. Empty selection c
 
 ## Supported AI tools
 
-suite-mcp auto-detects your tool by scanning for marker files in the working directory.
+suite-mcp auto-detects your tool by scanning for marker files in the working directory, then installs MCPs into your **user-level global config** so they are available in every project.
 
-| Tool | Config file | Format |
-|------|------------|--------|
-| **Claude Code** | `.mcp.json` | flat |
-| **Cursor** | `.cursor/mcp.json` | flat |
-| **Windsurf** | `.mcp.json` | flat |
-| **GitHub Copilot** | `.vscode/mcp.json` | flat |
-| **Gemini CLI** | `.gemini/settings.json` | nested |
-| **Codex CLI** | `.mcp.json` | flat |
-| **OpenCode** | `opencode.json` | nested |
+| Tool | Global config file | Format |
+|------|-------------------|--------|
+| **Claude Code** | `~/.claude/settings.json` | nested |
+| **Cursor** | `~/.cursor/mcp.json` | flat |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` | nested |
+| **Gemini CLI** | `~/.gemini/settings.json` | nested |
+| **GitHub Copilot** | `.vscode/mcp.json` *(project-local)* | flat |
+| **Codex CLI** | `.mcp.json` *(project-local)* | flat |
+| **OpenCode** | `opencode.json` *(project-local)* | nested |
 
 > **Tip:** If no tool is detected, the CLI prompts you to choose one. Use `--target` to skip detection entirely.
 
@@ -164,7 +164,7 @@ src/
 
 - **Zero runtime dependencies** — uses only Node.js built-ins (`readline`, `fs`, `crypto`, `path`, `os`)
 - **Atomic writes** — write to temp file, then rename, preventing config corruption on crash
-- **Path traversal protection** — all file paths are validated to stay inside the working directory
+- **Path traversal protection** — all file paths are validated to stay within the user's home directory or working directory
 - **Merge, never overwrite** — existing MCP entries from other sources are always preserved
 - **52 tests** — config I/O, detection logic, parsing, and security edge cases
 
