@@ -1,8 +1,8 @@
 <p align="center">
   <h1 align="center">@cocaxcode/suite-mcp</h1>
   <p align="center">
-    <strong>All cocaxcode MCP servers. One command.</strong><br/>
-    5 MCPs &middot; 100+ tools &middot; Zero config &middot; Any AI tool
+    <strong>One command. Five MCP servers. Any AI tool.</strong><br/>
+    Install 100+ tools into your AI coding assistant in under 10 seconds.
   </p>
 </p>
 
@@ -12,92 +12,73 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D20-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node >= 20" />
   <img src="https://img.shields.io/badge/MCPs-5-blueviolet?style=flat-square" alt="5 MCPs" />
+  <img src="https://img.shields.io/badge/tools-107-blue?style=flat-square" alt="107 tools" />
   <img src="https://img.shields.io/badge/tests-52-brightgreen?style=flat-square" alt="52 tests" />
 </p>
 
 <p align="center">
-  <a href="#what-is-this">What is this</a> &middot;
   <a href="#whats-included">What's included</a> &middot;
-  <a href="#installation">Installation</a> &middot;
+  <a href="#quick-start">Quick start</a> &middot;
   <a href="#usage">Usage</a> &middot;
   <a href="#supported-ai-tools">Supported AI tools</a> &middot;
+  <a href="#what-it-does-not-do">Boundaries</a> &middot;
   <a href="#architecture">Architecture</a>
 </p>
 
 ---
 
-## What is this?
-
-Installing MCP servers one by one is tedious. Each tool has its own npm package, its own config format, and some need special flags. You end up copy-pasting JSON configs or running 5+ separate commands.
-
-**suite-mcp** fixes that. One command installs all cocaxcode MCP servers in your AI tool. It detects your tool, asks which MCPs you want, and writes the correct config.
+An interactive CLI installer that configures all five cocaxcode MCP servers in your AI tool of choice. It auto-detects your tool, lets you pick which MCPs to add, and writes the correct config file — merging with your existing setup, never overwriting it.
 
 ```bash
 npx @cocaxcode/suite-mcp install
 ```
-
-That's it. All 5 MCPs configured and ready.
 
 ## What's included
 
-suite-mcp bundles **5 production-ready MCP servers** with **100+ tools** total:
-
-| MCP | Tools | What it does |
+| MCP | Tools | Description |
 |-----|:-----:|-------------|
-| [**api-testing**](https://www.npmjs.com/package/@cocaxcode/api-testing-mcp) | 35 | HTTP testing, assertions, flows, OpenAPI import, mock data, load testing, Postman import/export |
-| [**database**](https://www.npmjs.com/package/@cocaxcode/database-mcp) | 26 | PostgreSQL, MySQL, SQLite management with rollback snapshots, schema introspection, dump/restore |
-| [**devflow**](https://www.npmjs.com/package/@cocaxcode/devflow-mcp) | 32 | Connect Jira (Cloud + Server) with GitHub/GitLab, custom flows, configurable rules, multi-project |
-| [**logbook**](https://www.npmjs.com/package/@cocaxcode/logbook-mcp) | 9 | Developer logbook with notes, TODOs, code TODO scanning, full-text search |
-| [**ai-context-inspector**](https://www.npmjs.com/package/@cocaxcode/ai-context-inspector) | 5 | Scan, export, and import your AI ecosystem across 7 tools |
+| [**api-testing**](https://www.npmjs.com/package/@cocaxcode/api-testing-mcp) | 35 | HTTP testing, collections, assertions, flows, OpenAPI import, mock data, load testing, Postman import/export |
+| [**database**](https://www.npmjs.com/package/@cocaxcode/database-mcp) | 26 | PostgreSQL, MySQL, SQLite management with rollback snapshots, schema search, dump/restore |
+| [**devflow**](https://www.npmjs.com/package/@cocaxcode/devflow-mcp) | 32 | Jira (Cloud + Server) + GitHub/GitLab integration, custom flows, configurable rules, multi-project |
+| [**logbook**](https://www.npmjs.com/package/@cocaxcode/logbook-mcp) | 9 | Developer logbook with structured notes, TODOs, code scanning, full-text search |
+| [**ai-context-inspector**](https://www.npmjs.com/package/@cocaxcode/ai-context-inspector) | 5 | Scan, export, and import your AI ecosystem config across 7 tools |
 
-Each MCP is independently published on npm and can be installed separately. suite-mcp just makes installing all of them effortless.
+Each MCP is independently published on npm and works standalone. suite-mcp simply wires them all up at once.
 
-## Installation
-
-### Quick start (recommended)
+## Quick start
 
 ```bash
 npx @cocaxcode/suite-mcp install
 ```
 
-The CLI will:
-1. Detect your AI tool (Claude, Cursor, Windsurf, etc.)
-2. Show which MCPs are available
-3. Ask which ones to install
-4. Write the correct config
+The CLI detects your AI tool, shows available MCPs, and writes the config. Done.
 
-### Install all without prompts
+To install everything without prompts:
 
 ```bash
 npx @cocaxcode/suite-mcp install --all
-```
-
-### Force a specific AI tool
-
-```bash
-npx @cocaxcode/suite-mcp install --target cursor
-npx @cocaxcode/suite-mcp install --target gemini --all
 ```
 
 ## Usage
 
-### Install MCPs
+### Install
 
 ```bash
-# Interactive — choose which MCPs to install
+# Interactive — pick which MCPs to add
 npx @cocaxcode/suite-mcp install
 
-# Install all at once
+# All MCPs, no prompts
 npx @cocaxcode/suite-mcp install --all
 
-# Force target tool
-npx @cocaxcode/suite-mcp install --target cursor --all
+# Target a specific AI tool
+npx @cocaxcode/suite-mcp install --target cursor
+npx @cocaxcode/suite-mcp install --target gemini --all
 ```
 
 > [!NOTE]
-> If an MCP is already installed, it gets skipped automatically. Only missing MCPs are added.
+> Already-installed MCPs are skipped automatically. Only missing ones get added.
 
-### Check status
+### List status
 
 ```bash
 npx @cocaxcode/suite-mcp list
@@ -116,31 +97,31 @@ npx @cocaxcode/suite-mcp list
   3/5 installed
 ```
 
-### Remove MCPs
+### Remove
 
 ```bash
 npx @cocaxcode/suite-mcp remove
 ```
 
-Shows only installed MCPs and asks which to remove. Enter without selection cancels.
+Shows only installed MCPs and lets you choose which to remove. Empty selection cancels.
 
-### All commands
+### Command reference
 
 | Command | Description |
 |---------|-------------|
-| `install` | Install MCPs in your AI tool config |
+| `install` | Add MCPs to your AI tool config |
 | `remove` | Remove installed MCPs |
 | `list` | Show installation status |
 
 | Flag | Description |
 |------|-------------|
-| `--target <tool>` | Force AI tool (claude, cursor, windsurf, copilot, gemini, codex, opencode) |
+| `--target <tool>` | Force AI tool: `claude`, `cursor`, `windsurf`, `copilot`, `gemini`, `codex`, `opencode` |
 | `--all` | Install all MCPs without prompting |
 | `--version` | Show version |
 
 ## Supported AI tools
 
-suite-mcp auto-detects your AI tool by scanning for marker files in the current directory. All 7 major tools are supported:
+suite-mcp auto-detects your tool by scanning for marker files in the working directory.
 
 | Tool | Config file | Format |
 |------|------------|--------|
@@ -153,39 +134,41 @@ suite-mcp auto-detects your AI tool by scanning for marker files in the current 
 | **OpenCode** | `opencode.json` | nested |
 
 > [!TIP]
-> If no tool is detected, the CLI asks which one to configure. Use `--target` to skip detection.
+> If no tool is detected, the CLI prompts you to choose one. Use `--target` to skip detection entirely.
 
 ## What it does NOT do
 
-- **It doesn't run MCP servers.** It only writes config files. Each MCP runs independently via npx.
-- **It doesn't manage versions.** All MCPs install with `@latest`. To update, just re-run install.
-- **It doesn't bundle MCPs.** Each MCP stays independent with its own lifecycle and storage.
-- **It doesn't touch non-cocaxcode MCPs.** Your existing MCP configs are preserved (merge, never overwrite).
+- **Does not run MCP servers.** It only writes config files. Each MCP runs via `npx` at invocation time.
+- **Does not manage versions.** MCPs install with `@latest`. Re-run `install` to pick up updates.
+- **Does not bundle MCPs together.** Each server stays independent with its own lifecycle and data.
+- **Does not touch non-cocaxcode entries.** Your existing MCP configs are preserved — merge, never overwrite.
 
 ## Architecture
 
-Built for safety and simplicity:
-
-- **Zero runtime dependencies** — only Node.js built-ins (readline, fs, crypto)
-- **Atomic writes** — write-to-temp-then-rename prevents config corruption
-- **Path traversal protection** — validates all file paths stay inside the working directory
-- **JSON type validation** — handles malformed config files gracefully
-- **Merge, never overwrite** — preserves existing MCP configs from other sources
-- **52 tests** — covering config I/O, detection, parsing, and security edge cases
+<details>
+<summary>Project structure</summary>
 
 ```
 src/
 ├── index.ts       # CLI entry point and arg parsing
 ├── types.ts       # TypeScript interfaces
-├── registry.ts    # MCP catalog
+├── registry.ts    # MCP catalog (add new MCPs here)
 ├── config.ts      # Config read/write with atomic operations
-├── detect.ts      # AI tool auto-detection
+├── detect.ts      # AI tool auto-detection via marker files
 ├── prompts.ts     # Interactive readline prompts
 ├── install.ts     # Install subcommand
 ├── remove.ts      # Remove subcommand
 ├── list.ts        # List subcommand
-└── __tests__/     # 52 tests across 5 files
+└── __tests__/     # 52 tests across 5 suites
 ```
+
+</details>
+
+- **Zero runtime dependencies** — uses only Node.js built-ins (`readline`, `fs`, `crypto`, `path`, `os`)
+- **Atomic writes** — write to temp file, then rename, preventing config corruption on crash
+- **Path traversal protection** — all file paths are validated to stay inside the working directory
+- **Merge, never overwrite** — existing MCP entries from other sources are always preserved
+- **52 tests** — config I/O, detection logic, parsing, and security edge cases
 
 **Stack:** TypeScript &middot; ESM &middot; tsup &middot; Vitest &middot; Node >= 20
 
