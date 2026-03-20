@@ -23,6 +23,13 @@ export const MCP_REGISTRY: McpDefinition[] = [
     args: ['-y', '@cocaxcode/database-mcp@latest'],
   },
   {
+    name: 'devflow',
+    package: '@cocaxcode/devflow-mcp',
+    description: 'Jira + GitHub/GitLab workflow automation',
+    command: 'npx',
+    args: ['-y', '@cocaxcode/devflow-mcp@latest'],
+  },
+  {
     name: 'logbook',
     package: '@cocaxcode/logbook-mcp',
     description: 'Logbook de desarrollo con notas y TODOs',

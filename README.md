@@ -2,34 +2,33 @@
   <h1 align="center">@cocaxcode/suite-mcp</h1>
   <p align="center">
     <strong>All cocaxcode MCP servers. One command.</strong><br/>
-    4 MCPs · 70+ tools · Zero config · Any AI tool.
+    5 MCPs &middot; 100+ tools &middot; Zero config &middot; Any AI tool
   </p>
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@cocaxcode/suite-mcp"><img src="https://img.shields.io/npm/v/@cocaxcode/suite-mcp.svg?color=cb3837" alt="npm version" /></a>
-  <a href="https://www.npmjs.com/package/@cocaxcode/suite-mcp"><img src="https://img.shields.io/npm/dm/@cocaxcode/suite-mcp.svg" alt="npm downloads" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
-  <img src="https://img.shields.io/badge/node-%3E%3D20-green?logo=node.js" alt="Node >= 20" />
-  <img src="https://img.shields.io/badge/MCPs-4-blueviolet" alt="4 MCPs" />
-  <img src="https://img.shields.io/badge/tests-52-brightgreen" alt="52 tests" />
+  <a href="https://www.npmjs.com/package/@cocaxcode/suite-mcp"><img src="https://img.shields.io/npm/v/@cocaxcode/suite-mcp.svg?style=flat-square&color=cb3837" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/@cocaxcode/suite-mcp"><img src="https://img.shields.io/npm/dm/@cocaxcode/suite-mcp.svg?style=flat-square" alt="npm downloads" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/node-%3E%3D20-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node >= 20" />
+  <img src="https://img.shields.io/badge/MCPs-5-blueviolet?style=flat-square" alt="5 MCPs" />
+  <img src="https://img.shields.io/badge/tests-52-brightgreen?style=flat-square" alt="52 tests" />
 </p>
 
 <p align="center">
-  <a href="#what-is-this">What is this</a> ·
-  <a href="#whats-included">What's included</a> ·
-  <a href="#installation">Installation</a> ·
-  <a href="#usage">Usage</a> ·
-  <a href="#supported-ai-tools">Supported AI tools</a> ·
-  <a href="#architecture">Architecture</a> ·
-  <a href="#contributing">Contributing</a>
+  <a href="#what-is-this">What is this</a> &middot;
+  <a href="#whats-included">What's included</a> &middot;
+  <a href="#installation">Installation</a> &middot;
+  <a href="#usage">Usage</a> &middot;
+  <a href="#supported-ai-tools">Supported AI tools</a> &middot;
+  <a href="#architecture">Architecture</a>
 </p>
 
 ---
 
 ## What is this?
 
-Installing MCP servers one by one is tedious. Each tool has its own npm package, its own config format, and some need special flags. You end up copy-pasting JSON configs or running 4+ separate commands.
+Installing MCP servers one by one is tedious. Each tool has its own npm package, its own config format, and some need special flags. You end up copy-pasting JSON configs or running 5+ separate commands.
 
 **suite-mcp** fixes that. One command installs all cocaxcode MCP servers in your AI tool. It detects your tool, asks which MCPs you want, and writes the correct config.
 
@@ -37,16 +36,17 @@ Installing MCP servers one by one is tedious. Each tool has its own npm package,
 npx @cocaxcode/suite-mcp install
 ```
 
-That's it. All 4 MCPs configured and ready.
+That's it. All 5 MCPs configured and ready.
 
 ## What's included
 
-suite-mcp bundles **4 production-ready MCP servers** with **70+ tools** total:
+suite-mcp bundles **5 production-ready MCP servers** with **100+ tools** total:
 
 | MCP | Tools | What it does |
 |-----|:-----:|-------------|
 | [**api-testing**](https://www.npmjs.com/package/@cocaxcode/api-testing-mcp) | 35 | HTTP testing, assertions, flows, OpenAPI import, mock data, load testing, Postman import/export |
 | [**database**](https://www.npmjs.com/package/@cocaxcode/database-mcp) | 26 | PostgreSQL, MySQL, SQLite management with rollback snapshots, schema introspection, dump/restore |
+| [**devflow**](https://www.npmjs.com/package/@cocaxcode/devflow-mcp) | 32 | Connect Jira (Cloud + Server) with GitHub/GitLab, custom flows, configurable rules, multi-project |
 | [**logbook**](https://www.npmjs.com/package/@cocaxcode/logbook-mcp) | 9 | Developer logbook with notes, TODOs, code TODO scanning, full-text search |
 | [**ai-context-inspector**](https://www.npmjs.com/package/@cocaxcode/ai-context-inspector) | 5 | Scan, export, and import your AI ecosystem across 7 tools |
 
@@ -94,7 +94,8 @@ npx @cocaxcode/suite-mcp install --all
 npx @cocaxcode/suite-mcp install --target cursor --all
 ```
 
-If an MCP is already installed, it gets skipped automatically. Only missing MCPs are added.
+> [!NOTE]
+> If an MCP is already installed, it gets skipped automatically. Only missing MCPs are added.
 
 ### Check status
 
@@ -103,15 +104,16 @@ npx @cocaxcode/suite-mcp list
 ```
 
 ```
-@cocaxcode/suite-mcp — MCPs disponibles (claude)
+@cocaxcode/suite-mcp — Available MCPs (claude)
 
-  Estado  MCP                   Descripcion
-  ✓       api-testing           Testing de APIs con collections, assertions y flows
-  ✓       database              Gestion de PostgreSQL, MySQL y SQLite
-  ✗       logbook               Logbook de desarrollo con notas y TODOs
-  ✗       ai-context-inspector  Scanner y migrador de ecosistema AI
+  Status  MCP                   Description
+  ✓       api-testing           API testing with collections, assertions, and flows
+  ✓       database              PostgreSQL, MySQL, and SQLite management
+  ✓       devflow               Jira + GitHub/GitLab workflow automation
+  ✗       logbook               Developer logbook with notes and TODOs
+  ✗       ai-context-inspector  AI ecosystem scanner and migrator
 
-  2/4 instalados
+  3/5 installed
 ```
 
 ### Remove MCPs
@@ -150,7 +152,8 @@ suite-mcp auto-detects your AI tool by scanning for marker files in the current 
 | **Codex CLI** | `.mcp.json` | flat |
 | **OpenCode** | `opencode.json` | nested |
 
-If no tool is detected, the CLI asks which one to configure. Use `--target` to skip detection.
+> [!TIP]
+> If no tool is detected, the CLI asks which one to configure. Use `--target` to skip detection.
 
 ## What it does NOT do
 
@@ -184,25 +187,8 @@ src/
 └── __tests__/     # 52 tests across 5 files
 ```
 
-**Stack:** TypeScript · ESM · tsup · Vitest · Node >= 20
+**Stack:** TypeScript &middot; ESM &middot; tsup &middot; Vitest &middot; Node >= 20
 
-## Contributing
+---
 
-```bash
-git clone https://github.com/cocaxcode/suite-mcp.git
-cd suite-mcp
-npm install
-npm test            # 52 tests
-npm run build       # ESM bundle
-npm run typecheck   # TypeScript check
-```
-
-### How to contribute
-
-1. **Bug reports** — open an issue with steps to reproduce
-2. **Feature requests** — describe your use case
-3. **Pull requests** — fork, add tests, ensure all tests pass
-
-## License
-
-[MIT](./LICENSE) — built by [cocaxcode](https://github.com/cocaxcode)
+[MIT](./LICENSE) &middot; Built by [cocaxcode](https://github.com/cocaxcode)

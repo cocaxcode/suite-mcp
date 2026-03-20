@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { MCP_REGISTRY } from '../registry.js'
 
 describe('MCP_REGISTRY', () => {
-  it('contiene exactamente 4 MCPs', () => {
-    expect(MCP_REGISTRY).toHaveLength(4)
+  it('contiene exactamente 5 MCPs', () => {
+    expect(MCP_REGISTRY).toHaveLength(5)
   })
 
   it('cada entry tiene todos los campos requeridos', () => {
@@ -32,18 +32,21 @@ describe('MCP_REGISTRY', () => {
     expect(aci?.args).toContain('--mcp')
   })
 
-  it('api-testing y database NO incluyen --mcp', () => {
+  it('api-testing, database y devflow NO incluyen --mcp', () => {
     const apiTesting = MCP_REGISTRY.find((m) => m.name === 'api-testing')
     const database = MCP_REGISTRY.find((m) => m.name === 'database')
+    const devflow = MCP_REGISTRY.find((m) => m.name === 'devflow')
 
     expect(apiTesting?.args).not.toContain('--mcp')
     expect(database?.args).not.toContain('--mcp')
+    expect(devflow?.args).not.toContain('--mcp')
   })
 
-  it('contiene los 4 MCPs esperados', () => {
+  it('contiene los 5 MCPs esperados', () => {
     const names = MCP_REGISTRY.map((m) => m.name)
     expect(names).toContain('api-testing')
     expect(names).toContain('database')
+    expect(names).toContain('devflow')
     expect(names).toContain('logbook')
     expect(names).toContain('ai-context-inspector')
   })
